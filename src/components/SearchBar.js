@@ -3,11 +3,6 @@ import React, { useState } from 'react';
 const SearchBar = ({ onFormSubmit }) => {
   const [term, setTerm] = useState('');
 
-  // Set term from event handler
-  const onInputChange = (event) => {
-    setTerm(event.target.value);
-  };
-
   // Prevent broswer from submiting automatically
   const onSubmit = (event) => {
     event.preventDefault();
@@ -25,7 +20,7 @@ const SearchBar = ({ onFormSubmit }) => {
           type="text"
           value={term}
           // Event Handler
-          onChange={onInputChange}
+          onChange={(event) => setTerm(event.target.value)}
         />
       </form>
     </div>

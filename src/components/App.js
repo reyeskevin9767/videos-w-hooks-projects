@@ -28,9 +28,12 @@ const App = () => {
 
   // Get info about video from videoItem
   // Communicate from parent to child with props
-  const onVideoSelect = (video) => {
-    setSelectedVideo(video);
-  };
+  // const onVideoSelect = (video) => {
+  //   setSelectedVideo(video);
+  // };
+
+  // ^--- exact as onVideoSelect={(video) => setSelectedVideo(video)}
+  // and onVideoSelect={setSelectedVideo}
 
   return (
     <div className="ui container">
@@ -42,7 +45,7 @@ const App = () => {
           </div>
 
           <div className="five wide column">
-            <VideoList onVideoSelect={onVideoSelect} videos={videos} />
+            <VideoList onVideoSelect={setSelectedVideo} videos={videos} />
           </div>
         </div>
       </div>
