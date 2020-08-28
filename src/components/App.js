@@ -1,30 +1,19 @@
 import React, { useState, useEffect } from 'react';
 import SearchBar from './SearchBar';
-import youtube, { baseParams } from '../apis/youtube';
 import VideoList from './VideoList';
 import VideoDetail from './VideoDetail';
+import useVideos from '../hooks/useVideos';
 
 const App = () => {
-  const [videos, setVideos] = useState([]);
   const [selectedVideo, setSelectedVideo] = useState(null);
 
-  // Manually call onTermSumbit when application first loads
+  // Reusable Hook
+  const [videos, search] = useVideos('react js');
+
+  // Render when a new list of videos are returned
   useEffect(() => {
-    onTermSubmit('react js');
-  }, []);
-
-  // Send a request to api
-  const onTermSubmit = async (term) => {
-    const response = await youtube.get('/search', {
-      params: {
-        ...baseParams,
-        q: term,
-      },
-    });
-
-    setVideos(response.data.items);
-    setSelectedVideo(response.data.items[0]);
-  };
+    setSelectedVideo(videos[0]);
+  }, [videos]);
 
   // Get info about video from videoItem
   // Communicate from parent to child with props
@@ -34,10 +23,11 @@ const App = () => {
 
   // ^--- exact as onVideoSelect={(video) => setSelectedVideo(video)}
   // and onVideoSelect={setSelectedVideo}
+  // Best for one-line event handlers
 
   return (
     <div className="ui container">
-      <SearchBar onFormSubmit={onTermSubmit} />
+      <SearchBar onFormSubmit={search} />
       <div className="ui stackable grid ">
         <div className="row">
           <div className="eleven wide column">
